@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>replit</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Playpen+Sans&display=swap" rel="stylesheet">
+</head>
+
+<body>
+	<div class="content">
+		<h2>Questão 3</h2>
+		<p>Crie um novo projeto com uma página que tem um formulário para um objeto baseado em uma classe Transacao, com no
+			mínimo os campos Descrição (texto) e Valor, e um botão Adicionar que ao clicar adicione uma nova transação,
+			mostrada
+			em uma tabela (table). Caso a transação seja com valor negativo (despesa), mostre o valor em vermelho, caso seja
+			positivo (receita), mostre em verde. Ao final da tabela, mostre o total de saldo</p>
+		<form id="form">
+			<label >Descrição:</label>
+			<input type="text" id="descricao">
+			<label >Valor:</label>
+			<input type="number" id="valor">
+			<button class="btn" id="adicionar">Adicionar</button>
+		</form>
+		<table id="tabela">
+			<tr>
+				<th>Descrição</th>
+				<th>Valor</th>
+				<th>Total</th>
+			</tr>
+		</table>
+	</div>
+	<script>
+		const form = document.getElementById('form');
+		const descricao = document.getElementById('descricao');
+		const valor = document.getElementById('valor');
+		const adicionar = document.getElementById('adicionar');
+		let total = 0;
+		class Transacao {
+			constructor(descricao, valor) {
+				this.descricao = descricao;
+				this.valor = valor;
+				total += valor;
+			}
+		}
+		function criarTabela(transacao) {
+			const tabela = document.querySelector("table");
+			const cabecalho = document.querySelector("tr");
+			const descricaoCabecalho = document.querySelector("th");
+
+			const linhaDados = document.createElement("tr");
+
+			const descricaoCelula = document.createElement("td");
+			descricaoCelula.innerText = transacao.descricao;
+			linhaDados.appendChild(descricaoCelula);
+
+			if (transacao.valor < 0) {
+				const valorCelula = document.createElement("td");
+				valorCelula.innerText = transacao.valor;
+				valorCelula.style.color = "red";
+				linhaDados.appendChild(valorCelula);
+			} else {
+				const valorCelula = document.createElement("td");
+				valorCelula.innerText = transacao.valor;
+				valorCelula.style.color = "#095c0d";
+				linhaDados.appendChild(valorCelula);
+			}
+			
+			const saldoTotal = document.createElement("td");
+			saldoTotal.innerText = "Total";
+			linhaDados.appendChild(saldoTotal);
+
+			const saldoTotal1 = document.createElement("td");
+			saldoTotal.innerText = total;
+			linhaDados.appendChild(saldoTotal1);
+
+			tabela.appendChild(linhaDados);
+
+			
+			const body = document.getElementsByClassName("content");
+			body.appendChild(tabela);
+		}
+
+
+		adicionar.addEventListener('click', (event) => {
+			event.preventDefault();
+			const transacao = new Transacao(descricao.value, parseFloat(valor.value));
+			criarTabela(transacao);
+			form.reset();
+			saldoTotal.textContent = `Saldo Total: ${total}`;
+		});
+
+	</script>
+</body>
+
+</html>
