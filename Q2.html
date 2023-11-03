@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>replit</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Playpen+Sans&display=swap" rel="stylesheet">
+</head>
+
+<body>
+	<div class="content">
+		<h2>Questão 2</h2>
+		<p>Crie um novo projeto com uma página que tenha um formulário para adicionar clientes a um banco. Crie uma classe
+			chamada ClienteBanco com os seguintes atributos: Nome, Documento, Saldo. Liste os clientes criados e adicione dois
+			botões em cada um, um para Depositar 100 e outro para Sacar 100. Ao clicar, o objeto em questão deve ter seu saldo
+			alterado, aumentando ou diminuindo seu saldo, e isso deve refletir no que é mostrado na tela.</p>
+
+		<form id="form">
+			<label>Nome:</label>
+			<input type="text" id="nome" placeholder="Digite o nome do cliente">
+			<label>Documento:</label>
+			<input type="number" id="documento" placeholder="Digite o documento do cliente">
+			<label>Saldo:</label>
+			<input type="number" id="saldo" placeholder="Digite o saldo do cliente">
+			<button class="btn" id="add">Adicionar</button>
+		</form>
+		<ul id="lista"></ul>
+	</div>
+	<script>
+		const lista = document.getElementById("lista");
+		const nome = document.getElementById("nome");
+		const documento = document.getElementById("documento");
+		const saldo = document.getElementById("saldo");
+		const add = document.getElementById("add");
+		const form = document.getElementById("form");
+
+		class ClienteBanco {
+			constructor(nome, documento, saldo) {
+				this.nome = nome;
+				this.documento = documento;
+				this.saldo = saldo;
+				this.li = document.createElement("li");
+
+				this.depositarButton = document.createElement("button");
+				this.depositarButton.textContent = "Depositar 100";
+				this.depositarButton.addEventListener("click", () => {
+					this.saldo += 100;
+					this.atualizarTexto();
+				});
+
+				this.sacarButton = document.createElement("button");
+				this.sacarButton.textContent = "Sacar 100";
+				this.sacarButton.addEventListener("click", () => {
+					this.saldo -= 100;
+					this.atualizarTexto();
+				});
+
+				this.atualizarTexto();
+				this.li.appendChild(this.depositarButton);
+				this.li.appendChild(this.sacarButton);
+				lista.appendChild(this.li);
+			}
+
+			atualizarTexto() {
+				this.li.textContent = `Nome: ${this.nome} | Documento: ${this.documento} | Saldo: ${this.saldo}`;
+				this.li.appendChild(this.depositarButton);
+				this.li.appendChild(this.sacarButton);
+			}
+		}
+
+		add.addEventListener("click", (event) => {
+			event.preventDefault();
+			const cliente = new ClienteBanco(nome.value, documento.value, parseInt(saldo.value));
+			form.reset();
+		});
+
+	</script>
+</body>
+
+</html>
