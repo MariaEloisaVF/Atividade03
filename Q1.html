@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>replit</title>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Playpen+Sans&display=swap" rel="stylesheet">
+</head>
+
+<body>
+	<div class="content">
+		<h2>Questão 1</h2>
+		<p>Crie um novo projeto com uma página que tenha 1 campo de texto e 1 campo do tipo "datetime-local" e 1 botão com o
+			rótulo "Adicionar". O usuário deve digitar o nome de um evento e selecionar em que horário esse evento (um objeto
+			com os valores selecionados) vai ocorrer. Ao clicar em adicionar, deve ser mostrado na tela a lista de eventos em
+			ordem cronológica, utilizem o método sort de array. Para facilitar o trabalho de mostrar os eventos na tela, veja
+			o
+			método replaceChildren()</p>
+		<form id="form">
+			<label>Nome do evento:</label>
+			<input type="text" id="campoTexto" placeholder="Adicione um evento">
+			<label>Data e Hora:</label>
+			<input type="datetime-local" id="campoData">
+			<button class="btn" id="adicionar">Adicionar</button>
+		</form>
+		<div id="lista"></div>
+	</div>
+
+	<script>
+		const campoTexto = document.getElementById("campoTexto");
+		const data = document.getElementById("campoData");
+		const add = document.getElementById("adicionar");
+		const lista = document.getElementById("lista");
+		const form = document.getElementById("form");
+		const listaEventos = [];
+
+		add.addEventListener("click", (event) => {
+			event.preventDefault();
+			const novoEvento = {
+				nome: campoTexto.value,
+				data: data.value
+			}
+			listaEventos.push(novoEvento);
+
+			listaEventos.sort((a, b) => new Date(a.data) - new Date(b.data));
+
+			const divLista = document.createElement("div");
+
+			listaEventos.forEach(evento => {
+				const novoEventoElement = document.createElement("div");
+				novoEventoElement.innerText = `Evento: ${evento.nome} Data: ${evento.data}`;
+				divLista.appendChild(novoEventoElement);
+			});
+
+			lista.replaceChildren(divLista);
+			form.reset();
+		});
+	</script>
+</body>
+
+</html>
